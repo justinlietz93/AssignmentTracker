@@ -45,13 +45,13 @@ welcome to the college assignment tracker, a custom desktop application designed
 1. clone the repository:
 
     ```bash
-    git clone https://github.com/justinlietz93/college-assignment-tracker.git
+    git clone https://github.com/justinlietz93/AssignmentTracker.git
     ```
 
 2. navigate to the project directory:
 
     ```bash
-    cd college-assignment-tracker
+    cd AssignmentTracker
     ```
 
 3. (optional) create a virtual environment: it's good practice to use a virtual environment to manage dependencies.
