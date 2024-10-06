@@ -78,6 +78,13 @@ class EventHandlers:
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred while saving notes: {e}")
 
+
+    def on_tab_changed(self, event):
+        selected_tab = event.widget.select()
+        tab_name = event.widget.tab(selected_tab, "text")
+        self.current_tab = tab_name
+
+
     def on_open_assignment_from_dashboard(self, tab_name, assignment_title):
         # Switch to the corresponding tab
         for idx in range(len(self.app.notebook.tabs())):

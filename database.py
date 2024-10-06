@@ -69,6 +69,7 @@ class Database:
             VALUES (?, ?, ?, 'Pending', ?)
         """, (tab_name, assignment_title, due_date, notes))
         self.conn.commit()
+        return True
 
     def get_assignments(self, tab_name):
         self.cursor.execute("""

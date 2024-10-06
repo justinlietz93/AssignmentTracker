@@ -1,10 +1,13 @@
+# app.py
+
 import tkinter as tk
-from tkinter import messagebox, ttk, simpledialog, filedialog
+from tkinter import ttk, messagebox, simpledialog, filedialog
 import datetime
 import csv
 from database import Database
 from event_handlers import EventHandlers
 from details_window import DetailsWindow
+from add_assignment_window import AssignmentWindow
 from dashboard import Dashboard
 from constants import COLORS, DATE_FORMAT
 from utils import parse_date
@@ -20,6 +23,13 @@ class AssignmentTracker:
         # Initialize event handlers
         self.event_handlers = EventHandlers(self)
         self.load_tabs()
+        # Bind the tab changed event
+        self.notebook.bind("<<NotebookTabChanged>>", self.on_tab_changed)
+        # Initialize current_tab
+        if hasattr(self, 'current_tab'):
+            pass  # Already set in load_tabs
+        else:
+            self.current_tab = None
 
 
     def create_widgets(self):
@@ -56,6 +66,10 @@ class AssignmentTracker:
         delete_button = tk.Button(button_frame, text="Delete", command=self.delete_selected_assignments)
         delete_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
+        # Add "Add" button
+        add_button = tk.Button(button_frame, text="Add", command=self.add_new_assignment)
+        add_button.pack(side=tk.RIGHT, padx=5, pady=5)
+
         # Notebook for tabs
         self.notebook = ttk.Notebook(self.root)
         self.notebook.pack(expand=1, fill='both')
@@ -85,9 +99,17 @@ class AssignmentTracker:
         if not tabs:
             # If no tabs, create a default tab
             self.add_tab("Default")
+            tabs = ["Default"]
+
         else:
             for tab_name in tabs:
                 self.create_tab(tab_name)
+
+        # Set the current_tab to the first tab
+        if tabs:
+            self.current_tab = tabs[0]
+        else:
+            self.current_tab = None
 
 
     def create_tab(self, tab_name):
@@ -175,6 +197,10 @@ class AssignmentTracker:
         # Update the database
         self.db.rename_tab(old_name, new_name)
 
+        # Update current_tab if necessary
+        if self.current_tab == old_name:
+            self.current_tab = new_name
+
 
     def delete_tab(self):
         current_tab = self.notebook.select()
@@ -190,6 +216,25 @@ class AssignmentTracker:
             del self.tab_trees[tab_name]
             # Delete assignments from database
             self.db.delete_tab(tab_name)
+
+            # Update current_tab if necessary
+            if self.current_tab == tab_name:
+                remaining_tabs = self.db.get_all_tabs()
+                self.current_tab = remaining_tabs[0] if remaining_tabs else None
+
+
+    def add_new_assignment(self):
+        if not self.current_tab:
+            messagebox.showerror("Error", "No tab selected. Please select a tab before adding assignments.")
+            return
+        AssignmentWindow(self.root, self.save_assignment)
+
+
+    def save_assignment(self, title, due_date, status, notes):
+        success = self.db.add_assignment(self.current_tab, title, due_date, notes)
+        if success:
+            self.load_assignments(self.current_tab)  # Refresh the assignment list
+        return success  
 
 
     def import_csv(self):
@@ -405,3 +450,22 @@ class AssignmentTracker:
             tab_name = self.notebook.tab(current_tab, "text")
             self.load_assignments(tab_name)
         return success
+
+
+    def on_tab_changed(self, event):
+        """
+        Event handler for when the Notebook tab is changed.
+
+        Args:
+            event (tk.Event): The event object.
+        """
+        selected_tab = event.widget.select()
+        tab_name = event.widget.tab(selected_tab, "text")
+        self.current_tab = tab_name
+        # You can perform additional actions here if needed when the tab changes
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AssignmentTracker(root)
+    root.mainloop()
