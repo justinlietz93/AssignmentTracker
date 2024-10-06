@@ -49,11 +49,11 @@ class AssignmentTracker:
 
         # Add "Complete" button
         complete_button = tk.Button(button_frame, text="Complete", command=self.mark_selected_completed)
-        complete_button.pack(side=tk.LEFT, padx=5, pady=5)
+        complete_button.pack(side=tk.RIGHT, padx=(5,20), pady=5)
 
         # Add "Delete" button
         delete_button = tk.Button(button_frame, text="Delete", command=self.delete_selected_assignments)
-        delete_button.pack(side=tk.LEFT, padx=5, pady=5)
+        delete_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
         # Notebook for tabs
         self.notebook = ttk.Notebook(self.root)
