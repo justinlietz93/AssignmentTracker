@@ -9,6 +9,7 @@ from dashboard import Dashboard
 from constants import COLORS, DATE_FORMAT
 from utils import parse_date
 
+
 class AssignmentTracker:
     def __init__(self, root):
         self.db = Database()
@@ -71,6 +72,7 @@ class AssignmentTracker:
         # Selected Treeview
         self.selected_tree = None
 
+
     def load_tabs(self):
         # Clear existing tabs
         for tab in self.notebook.tabs():
@@ -86,6 +88,7 @@ class AssignmentTracker:
         else:
             for tab_name in tabs:
                 self.create_tab(tab_name)
+
 
     def create_tab(self, tab_name):
         # Create a new frame for the tab
@@ -113,6 +116,7 @@ class AssignmentTracker:
         # Load assignments into the tree
         self.load_assignments(tab_name)
 
+
     def treeview_sort_column(self, tree, col, reverse):
         # Sorts the Treeview column when header is clicked.
         # Get all items in the Treeview
@@ -137,6 +141,7 @@ class AssignmentTracker:
         # Toggle the sort order for next click
         tree.heading(col, command=lambda: self.treeview_sort_column(tree, col, not reverse))
 
+
     def add_tab(self, tab_name=None):
         if not tab_name:
             # Ask for tab name
@@ -148,6 +153,7 @@ class AssignmentTracker:
             return
         self.create_tab(tab_name)
         self.db.add_tab(tab_name)
+
 
     def rename_tab(self):
         current_tab = self.notebook.select()
@@ -169,6 +175,7 @@ class AssignmentTracker:
         # Update the database
         self.db.rename_tab(old_name, new_name)
 
+
     def delete_tab(self):
         current_tab = self.notebook.select()
         if not current_tab:
@@ -183,6 +190,7 @@ class AssignmentTracker:
             del self.tab_trees[tab_name]
             # Delete assignments from database
             self.db.delete_tab(tab_name)
+
 
     def import_csv(self):
         # Open a file dialog to select the CSV file
@@ -234,6 +242,7 @@ class AssignmentTracker:
         except Exception as e:
             messagebox.showerror("Import Error", f"An error occurred while importing: {e}")
 
+
     def load_assignments(self, tab_name):
         if tab_name not in self.tab_trees:
             return
@@ -259,8 +268,9 @@ class AssignmentTracker:
         for tag, color in COLORS.items():
             tree.tag_configure(tag, background=color['background'], foreground=color['foreground'])
 
+
     def get_due_date_color_tag(self, due_date_str):
-        """Returns the color tag based on how close the due date is."""
+        # Returns the color tag based on how close the due date is.
         try:
             due_date = parse_date(due_date_str)
             today = datetime.date.today()
@@ -280,6 +290,7 @@ class AssignmentTracker:
         except ValueError:
             return ''
 
+
     def show_context_menu(self, event):
         widget = event.widget
         self.selected_tree = widget
@@ -288,6 +299,7 @@ class AssignmentTracker:
             if selected_item not in widget.selection():
                 widget.selection_set(selected_item)
             self.menu.post(event.x_root, event.y_root)
+
 
     def mark_completed(self):
         selected_items = self.selected_tree.selection()
@@ -301,6 +313,7 @@ class AssignmentTracker:
         current_tab = self.notebook.select()
         tab_name = self.notebook.tab(current_tab, "text")
         self.load_assignments(tab_name)
+
 
     def delete_assignment(self):
         selected_items = self.selected_tree.selection()
@@ -318,6 +331,7 @@ class AssignmentTracker:
         tab_name = self.notebook.tab(current_tab, "text")
         self.load_assignments(tab_name)
 
+
     def mark_selected_completed(self):
         current_tab = self.notebook.select()
         tab_name = self.notebook.tab(current_tab, "text")
@@ -330,6 +344,7 @@ class AssignmentTracker:
             assignment_id = int(item)  # The iid is the assignment_id
             self.db.mark_completed(assignment_id)
         self.load_assignments(tab_name)
+
 
     def delete_selected_assignments(self):
         current_tab = self.notebook.select()
@@ -347,11 +362,13 @@ class AssignmentTracker:
             self.db.delete_assignment(assignment_id)
         self.load_assignments(tab_name)
 
+
     def open_dashboard(self):
         if hasattr(self, 'dashboard_window') and self.dashboard_window.winfo_exists():
             self.dashboard_window.focus()
         else:
             self.dashboard_window = Dashboard(self.root, self.db, self.open_assignment_from_dashboard)
+
 
     def open_assignment_from_dashboard(self, tab_name, assignment_title):
         # Switch to the corresponding tab
@@ -371,11 +388,13 @@ class AssignmentTracker:
                     tree.see(child)
                     break
 
+
     def open_details_window(self, assignment_id):
         # Retrieve assignment data from the database
         assignment = self.db.get_assignment_by_id(assignment_id)
         if assignment:
             DetailsWindow(self.root, assignment, self.save_notes)
+
 
     def save_notes(self, assignment_id, notes):
         # Update notes in the database
