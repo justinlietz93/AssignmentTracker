@@ -114,7 +114,7 @@ class AssignmentTracker:
         self.load_assignments(tab_name)
 
     def treeview_sort_column(self, tree, col, reverse):
-        """Sorts the Treeview column when header is clicked."""
+        # Sorts the Treeview column when header is clicked.
         # Get all items in the Treeview
         data_list = [(tree.set(k, col), k) for k in tree.get_children('')]
 
