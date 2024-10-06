@@ -45,13 +45,13 @@ welcome to the college assignment tracker, a custom desktop application designed
 1. clone the repository:
 
     ```bash
-    git clone https://github.com/justinlietz93/college-assignment-tracker.git
+    git clone https://github.com/justinlietz93/AssignmentTracker.git
     ```
 
 2. navigate to the project directory:
 
     ```bash
-    cd college-assignment-tracker
+    cd AssignmentTracker
     ```
 
 3. (optional) create a virtual environment: it's good practice to use a virtual environment to manage dependencies.
@@ -106,7 +106,7 @@ tabs represent different courses or categories for your assignments.
 ## Managing Assignments
 within each course tab, you can manage your assignments.
 
-- **add an assignment**:
+- **add an assignment (not implemented)**:
   - click the `add assignment` button or navigate to `file > add assignment` (if available).
   - enter the assignment title and due date. optionally, add notes.
 
