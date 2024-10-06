@@ -1,5 +1,3 @@
-# app.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog, filedialog
 import datetime
@@ -453,16 +451,9 @@ class AssignmentTracker:
 
 
     def on_tab_changed(self, event):
-        """
-        Event handler for when the Notebook tab is changed.
-
-        Args:
-            event (tk.Event): The event object.
-        """
         selected_tab = event.widget.select()
         tab_name = event.widget.tab(selected_tab, "text")
         self.current_tab = tab_name
-        # You can perform additional actions here if needed when the tab changes
 
 
 if __name__ == "__main__":

@@ -8,15 +8,13 @@ from utils import parse_date
 
 class AssignmentWindow(tk.Toplevel):
     def __init__(self, master, save_callback):
-        """
-        Initialize the AssignmentWindow for adding a new assignment.
+        # Initialize the AssignmentWindow for adding a new assignment.
 
-        Args:
-            master (tk.Widget): The parent window.
-            save_callback (function): A callback function to save the new assignment.
-                                      Expected to accept four parameters:
-                                      title (str), due_date (str), status (str), notes (str).
-        """
+        # Args:
+        #     master (tk.Widget): The parent window.
+        #     save_callback (function): A callback function to save the new assignment.
+        #                               Expected to accept four parameters:
+        #                               title (str), due_date (str), status (str), notes (str).
         super().__init__(master)
         self.title("Add Assignment")
         self.save_callback = save_callback  # Callback function to save the assignment

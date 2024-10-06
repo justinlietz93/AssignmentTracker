@@ -1,11 +1,10 @@
-# event_handlers.py
-
 import tkinter as tk
 from tkinter import messagebox
 
 class EventHandlers:
     def __init__(self, app):
         self.app = app
+
 
     def on_assignment_double_click(self, event):
         tree = event.widget
@@ -17,6 +16,7 @@ class EventHandlers:
                 self.app.open_details_window(assignment_id)
             except ValueError:
                 messagebox.showerror("Error", "Invalid assignment ID.")
+
 
     def on_dashboard_item_double_click(self, event):
         tree = event.widget
@@ -31,6 +31,7 @@ class EventHandlers:
             else:
                 messagebox.showerror("Error", "Invalid assignment data.")
 
+    
     def on_mark_completed(self):
         selected_items = self.app.selected_tree.selection()
         if not selected_items:
@@ -47,6 +48,7 @@ class EventHandlers:
         tab_name = self.app.notebook.tab(current_tab, "text")
         self.app.load_assignments(tab_name)
 
+   
     def on_delete_assignment(self):
         selected_items = self.app.selected_tree.selection()
         if not selected_items:
@@ -66,6 +68,7 @@ class EventHandlers:
         tab_name = self.app.notebook.tab(current_tab, "text")
         self.app.load_assignments(tab_name)
 
+   
     def on_save_notes(self, assignment_id, notes, window):
         try:
             self.app.db.update_notes(assignment_id, notes)

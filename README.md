@@ -106,7 +106,7 @@ tabs represent different courses or categories for your assignments.
 ## Managing Assignments
 within each course tab, you can manage your assignments.
 
-- **add an assignment (not implemented)**:
+- **add an assignment**:
   - click the `add assignment` button or navigate to `file > add assignment` (if available).
   - enter the assignment title and due date. optionally, add notes.
 
