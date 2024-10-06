@@ -1,5 +1,3 @@
-# add_assignment_window.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from constants import DATE_FORMAT
